@@ -17,6 +17,9 @@ get_stddev = lambda x, k_h, k_w: 1/math.sqrt(k_w*k_h*x.get_shape()[-1])
 def get_image(image_path, image_size, is_crop=True, resize_w=64, is_grayscale = False):
     return transform(imread(image_path, is_grayscale), image_size, is_crop, resize_w)
 
+def imsave(images, size, path):
+    return scipy.misc.imsave(path, merge(images, size))
+
 def save_images(images, size, image_path):
     return imsave(inverse_transform(images), size, image_path)
 
@@ -39,8 +42,7 @@ def merge(images, size):
 
     return img
 
-def imsave(images, size, path):
-    return scipy.misc.imsave(path, merge(images, size))
+
 
 def center_crop(x, crop_h, crop_w=None, resize_w=64):
     if crop_w is None:

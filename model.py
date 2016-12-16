@@ -81,7 +81,7 @@ class DCGAN(object):
 
         if self.y_dim:
             self.G = self.generator(self.z, self.y)
-            self.D, self.D_logits  = self.discriminator(self.images, self.y, reuse=False)
+            self.D, self.D_logits = self.discriminator(self.images, self.y, reuse=False)
 
             self.sampler = self.sampler(self.z, self.y)
             self.D_, self.D_logits_ = self.discriminator(self.G, self.y, reuse=True)

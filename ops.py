@@ -20,7 +20,8 @@ class batch_norm(object):
                                             updates_collections=None,
                                             epsilon=self.epsilon,
                                             scale=True,
-                                            scope=self.name)
+                                            scope=self.name,
+                                            is_training=train)
 
 
 def binary_cross_entropy(preds, targets, name=None):
