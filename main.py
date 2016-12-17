@@ -2,6 +2,7 @@ import os
 import scipy.misc
 import numpy as np
 
+
 from model import DCGAN
 from utils import pp, visualize, to_json
 
@@ -22,6 +23,8 @@ flags.DEFINE_string("sample_dir", "samples", "Directory name to save the image s
 flags.DEFINE_boolean("is_train", True, "True for training, False for testing [False]")
 flags.DEFINE_boolean("is_crop", False, "True for training, False for testing [False]")
 flags.DEFINE_boolean("visualize", True, "True for visualizing, False for nothing [False]")
+flags.DEFINE_boolean("gpu", False,"True for using GPU, false for using CPU [False]")
+flags.DEFINE_integer('gpu_id', 1, "Set GPU id[1]")
 FLAGS = flags.FLAGS
 
 def main(_):
@@ -32,7 +35,20 @@ def main(_):
     if not os.path.exists(FLAGS.sample_dir):
         os.makedirs(FLAGS.sample_dir)
 
-    with tf.Session() as sess:
+    # set up GPU properties:
+
+    if FLAGS.gpu:
+        os.environ['CUDA_VISIBLE_DEVICES'] = str(FLAGS.gpu_id)
+
+        config = tf.ConfigProto()
+        config.gpu_options.allow_growth = True
+        config.gpu_options.per_process_gpu_memory_fraction = 0.4
+        config.allow_soft_placement = True
+
+    else:
+        config = tf.ConfigProto()
+
+    with tf.Session(config=config) as sess:
         if FLAGS.dataset == 'mnist':
             dcgan = DCGAN(sess, image_size=FLAGS.image_size, batch_size=FLAGS.batch_size, y_dim=10, output_size=28, c_dim=1,
                     dataset_name=FLAGS.dataset, is_crop=FLAGS.is_crop, checkpoint_dir=FLAGS.checkpoint_dir, sample_dir=FLAGS.sample_dir)
