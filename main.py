@@ -24,7 +24,7 @@ flags.DEFINE_boolean("is_train", True, "True for training, False for testing [Fa
 flags.DEFINE_boolean("is_crop", False, "True for training, False for testing [False]")
 flags.DEFINE_boolean("visualize", True, "True for visualizing, False for nothing [False]")
 flags.DEFINE_boolean("gpu", False,"True for using GPU, false for using CPU [False]")
-flags.DEFINE_integer('gpu_id', 1, "Set GPU id[1]")
+flags.DEFINE_integer('gpu_id', 0, "Set GPU id[0]")
 FLAGS = flags.FLAGS
 
 def main(_):
